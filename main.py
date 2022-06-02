@@ -14,7 +14,7 @@ def _exec_main(btn):
 
 class MainWindow:
     def __init__(self):
-        self.ui = QUiLoader().load('main.ui')
+        self.ui = QUiLoader().load('ui/main.ui')
         self.ui.btn_rand_decimals.clicked.connect(lambda: _exec_main(self.ui.btn_rand_decimals))
 
 
