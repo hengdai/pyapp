@@ -9,12 +9,12 @@ def _exec_main(btn):
     decimal_window = decimal.Window()
     decimal_window.ui.show()
     print(a)
-    # QMessageBox.warning(self.ui, "信息", a)
 
 
 class MainWindow:
     def __init__(self):
         self.ui = QUiLoader().load('ui/main.ui')
+        self.ui.setWindowTitle("洋芋")
         self.ui.btn_rand_decimals.clicked.connect(lambda: _exec_main(self.ui.btn_rand_decimals))
 
 

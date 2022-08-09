@@ -1,10 +1,12 @@
 from PySide2.QtWidgets import QMessageBox
+from PySide2.QtWidgets import QTextBrowser
 from PySide2.QtUiTools import QUiLoader
 import random
 
 
 class Window:
     def __init__(self):
+        self.rst_ui = QTextBrowser()
         self.ui = QUiLoader().load('ui/rand_decimal.ui')
         self.ui.generate.clicked.connect(lambda: self._exec())
 
@@ -12,14 +14,21 @@ class Window:
         self.rand_data()
 
     def rand_data(self):
-        min_data = int(self.ui.min.text())
-        max_data = int(self.ui.max.text())  # 小数的范围A ~ B
-        count = int(self.ui.count.text())
-        keep = int(self.ui.keep.text())  # 随机数的精度round(数值，精度)
+        try:
+            min_data = float(self.ui.min.text())
+            max_data = float(self.ui.max.text())  # 小数的范围A ~ B
+            count = int(self.ui.count.text())
+            keep = int(self.ui.keep.text())  # 随机数的精度round(数值，精度)
+        except Exception as e:
+            QMessageBox.warning(self.ui, "信息输入错误", "信息输入错误: " + str(e))
+            return
 
         rst = []
         for j in range(count):
             temp = random.uniform(min_data, max_data)
-            rst.append(str(round(temp, keep)))
+            rst.append(format(round(temp, keep), "." + str(keep) + "f"))
 
-        QMessageBox.warning(self.ui, "随即小数结果", "\n".join(rst))
+        self.rst_ui.close()
+        self.rst_ui.setWindowTitle("随机数结果")
+        self.rst_ui.setText("\n".join(rst))
+        self.rst_ui.show()
