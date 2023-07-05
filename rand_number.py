@@ -8,10 +8,11 @@ def do_rand():
     max_number = 0
     keep_count = 0
     number_count = 0
+    is_sort = ""
 
     while True:
         try:
-            min_number = int(input("输入最小值："))
+            min_number = float(input("输入最小值："))
         except Exception as e:
             print("输入错误，请重新输入最小值")
             continue
@@ -19,7 +20,7 @@ def do_rand():
 
     while True:
         try:
-            max_number = int(input("输入最大值："))
+            max_number = float(input("输入最大值："))
         except Exception as e:
             print("输入错误，请重新输入最大值")
             continue
@@ -41,10 +42,26 @@ def do_rand():
             continue
         break
 
+    while True:
+        try:
+            is_sort = str(input("是否排序(y/n, 默认n)："))
+        except Exception as e:
+            print(e)
+            print("输入错误，是否排序(y/n, 默认n)")
+            continue
+        break
+
     rst_list = []
     for j in range(number_count):
         temp = random.uniform(min_number, max_number)
         rst_list.append(format(round(temp, keep_count), "." + str(keep_count) + "f"))
+
+    if is_sort == "y":
+        rst_len = len(rst_list)
+        for i in range(rst_len):
+            for j in range(rst_len - i - 1):
+                if float(rst_list[j]) > float(rst_list[j + 1]):
+                    rst_list[j], rst_list[j + 1] = rst_list[j + 1], rst_list[j]
 
     return rst_list
 
@@ -52,11 +69,5 @@ def do_rand():
 if __name__ == "__main__":
     while True:
         rst = do_rand()
-        rst_len = len(rst)
-        for i in range(rst_len):
-            for j in range(rst_len - i - 1):
-                if float(rst[j]) > float(rst[j+1]):
-                    rst[j], rst[j+1] = rst[j+1], rst[j]
-
         for i in rst:
             print(i)
